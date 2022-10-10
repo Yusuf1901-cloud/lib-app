@@ -1,0 +1,45 @@
+CREATE TABLE librarians(
+    id SERIAL NOT NULL UNIQUE,
+    full_name VARCHAR(255)  NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE books(
+    id SERIAL NOT NULL UNIQUE ,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(255),
+    count SMALLINT NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_lent BOOLEAN DEFAULT FALSE,
+    published_date DATE NOT NULL
+);
+
+CREATE TABLE librarians_books(
+    id SERIAL NOT NULL UNIQUE,
+    librarian_id INT REFERENCES librarians(id) ON DELETE CASCADE NOT NULL,
+    book_id INT REFERENCES books(id) ON DELETE CASCADE NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at BIGINT DEFAULT 0
+);
+
+
+CREATE TABLE users(
+    id SERIAL NOT NULL UNIQUE,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE users_books(
+    id SERIAL NOT NULL UNIQUE,
+    user_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+    book_id INT REFERENCES books(id)  ON DELETE CASCADE NOT NULL,
+    librarian_id INT REFERENCES librarians(id) ON DELETE CASCADE NOT NULL,
+    status BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+
+

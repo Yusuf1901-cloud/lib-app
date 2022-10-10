@@ -1,0 +1,10 @@
+port: "8080"
+
+db:
+  username: "postgres"
+  host: "localhost"
+  port: "5437"
+  dbname: "postgres"
+  sslmode: "disable"
+
+salt: "example salt"
