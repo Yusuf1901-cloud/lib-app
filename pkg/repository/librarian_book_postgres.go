@@ -52,7 +52,7 @@ func (r *librarianPostgres) GetAllLibrarianBooks(librarianId int) ([]models.Book
 
 func (r *librarianPostgres) GetLibrairianBookById(librarianId, bookId int) (models.Book, error) {
 	var book models.Book
-	query := fmt.Sprintf(`SELECT b.id, b.title, b.author, b.created_at, b.published_date, b.is_lent FROM %s b INNER JOIN %s lb 
+	query := fmt.Sprintf(`SELECT b.id, b.title, b.author, b.created_at, b.published_date, b.is_lent FROM %s b INNER JOIN %s lb 	
 						ON b.id = lb.book_id 
 						WHERE lb.librarian_id = $1 AND b.id = $2`, booksTable, librariansBooksTable)
 	err := r.db.Get(&book, query, librarianId, bookId)
@@ -93,9 +93,10 @@ func (r *librarianPostgres) UpdateLibrarianBook(librarianId, bookId int, input m
 	}
 	setQuery := strings.Join(setValues, ", ")
 	query := fmt.Sprintf("UPDATE TABLE %s b SET %s FROM %s lb WHERE b.id = lb.book_id AND lb.book_id=$1 AND lb.librarian_id = $2",
-		booksTable, setQuery, librariansBooksTable, argId, argId+1)
+		booksTable, setQuery, librariansBooksTable)
+	row := r.db.QueryRow(query, argId, argId+1)
 	args = append(args, bookId, librarianId)
-	logrus.Debug("updateQuery : %s", query)
+	logrus.Debug("updateQuery : %s", row)
 	logrus.Debug("args : %s", args)
 	_, err := r.db.Exec(query, args...)
 	return err

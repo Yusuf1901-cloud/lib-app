@@ -64,6 +64,22 @@ func getLibrarianId(c *gin.Context) (int, error) {
 	id, ok := c.Get(librarianCtx)
 	if !ok {
 		newErrorResponse(c, http.StatusUnauthorized, "libraririan id not found")
+		return 0, errors.New("librarian id is not found")
+	}
+
+	idInt, ok := id.(int)
+	if !ok {
+		newErrorResponse(c, http.StatusUnauthorized, "user id is of invalid type")
+		return 0, errors.New("librarian id is not found")
+	}
+
+	return idInt, nil
+}
+
+func getUserId(c *gin.Context) (int, error) {
+	id, ok := c.Get(userCtx)
+	if !ok {
+		newErrorResponse(c, http.StatusUnauthorized, "user id not found")
 		return 0, errors.New("user id is not found")
 	}
 

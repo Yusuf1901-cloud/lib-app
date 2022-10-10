@@ -126,14 +126,3 @@ func (h *Handler) deleteBook(c *gin.Context) {
 		Status: "deleted",
 	})
 }
-
-func (h *Handler) getUsersAllBooks(c *gin.Context) {
-	id, _ := c.Get(userCtx)
-	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
-	})
-}
-
-func (h *Handler) getUsersBookById(c *gin.Context) {
-
-}

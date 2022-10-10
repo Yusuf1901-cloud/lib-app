@@ -15,6 +15,8 @@ type Authorization interface {
 }
 
 type UserBooks interface {
+	GetAllUsersBooks(userId int) ([]models.Book, error)
+	GetUserBookById(userId, bookId int) (models.Book, error)
 }
 
 type LibrarianBooks interface {
@@ -23,6 +25,7 @@ type LibrarianBooks interface {
 	GetLibrarianBookById(librarianId, bookId int) (models.Book, error)
 	DeleteLibrarianBook(librarianId, bookId int) error
 	UpdateLibrarianBook(librarianId, bookId int, input models.UpdateBookInput) error
+	GiveBook(request *models.GiveBookRequest) error
 }
 
 type Service struct {
@@ -35,5 +38,6 @@ func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization:  NewAuthService(repos.Authorization),
 		LibrarianBooks: NewLibrarianBookService(repos.LibrarianBooks),
+		UserBooks:      NewUsersBooksService(repos.UserBooks),
 	}
 }

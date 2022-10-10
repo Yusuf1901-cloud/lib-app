@@ -19,6 +19,12 @@ type UpdateBookInput struct {
 	IsLent *bool   `json:"is_lent"`
 }
 
+type GiveBookRequest struct {
+	BookId      int
+	StudentId   int
+	LibrarianId int
+}
+
 func (i UpdateBookInput) Validate() error {
 	if i.Title == nil && i.Author == nil {
 		return errors.New("update structure has no values")

@@ -9,7 +9,7 @@ type librarianBookService struct {
 	repo repository.LibrarianBooks
 }
 
-func NewLibrarianBookService(repo repository.LibrarianBooks) *librarianBookService {
+func NewLibrarianBookService(repo repository.LibrarianBooks) LibrarianBooks {
 	return &librarianBookService{
 		repo: repo,
 	}
@@ -36,4 +36,9 @@ func (s *librarianBookService) UpdateLibrarianBook(librarianId, bookId int, inpu
 		return err
 	}
 	return s.repo.UpdateLibrarianBook(librarianId, bookId, input)
+}
+
+func (s *librarianBookService) GiveBook(request *models.GiveBookRequest) error {
+
+	return nil
 }

@@ -13,6 +13,8 @@ type Authorization interface {
 }
 
 type UserBooks interface {
+	GetAllUsersBooks(userId int) ([]models.Book, error)
+	GetUserBookById(userId, bookId int) (models.Book, error)
 }
 
 type LibrarianBooks interface {
@@ -33,5 +35,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization:  NewAuthPostgres(db),
 		LibrarianBooks: NewLibrarianBookPostgres(db),
+		UserBooks:      NewUserPostgres(db),
 	}
 }
